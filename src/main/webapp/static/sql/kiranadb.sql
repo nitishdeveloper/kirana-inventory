@@ -31,7 +31,7 @@ CREATE TABLE `APP_USER` (
   `email` varchar(30) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `sso_id` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `APP_USER` (
 
 LOCK TABLES `APP_USER` WRITE;
 /*!40000 ALTER TABLE `APP_USER` DISABLE KEYS */;
-INSERT INTO `APP_USER` VALUES (3,'nitishprajapati','$2a$10$eQc/iw/gYcLYnxAjrPcX8e8ol8lwsRxbtCcaxySrB1WXf8/pgpkRS','Nitish','Prajapati','nitishprajapati1994@gmail.com');
+INSERT INTO `APP_USER` VALUES (4,'nitish','123456','Nitish','Prajapati','nitishprajapati1994@gmail.com');
 /*!40000 ALTER TABLE `APP_USER` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -67,7 +67,7 @@ CREATE TABLE `APP_USER_USER_PROFILE` (
 
 LOCK TABLES `APP_USER_USER_PROFILE` WRITE;
 /*!40000 ALTER TABLE `APP_USER_USER_PROFILE` DISABLE KEYS */;
-INSERT INTO `APP_USER_USER_PROFILE` VALUES (3,2);
+INSERT INTO `APP_USER_USER_PROFILE` VALUES (4,2);
 /*!40000 ALTER TABLE `APP_USER_USER_PROFILE` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -92,7 +92,7 @@ CREATE TABLE `USER_PROFILE` (
 
 LOCK TABLES `USER_PROFILE` WRITE;
 /*!40000 ALTER TABLE `USER_PROFILE` DISABLE KEYS */;
-INSERT INTO `USER_PROFILE` VALUES (2,'ADMIN'),(3,'DBA'),(1,'USER');
+INSERT INTO `USER_PROFILE` VALUES (2,'ADMIN'),(1,'USER');
 /*!40000 ALTER TABLE `USER_PROFILE` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -105,19 +105,19 @@ DROP TABLE IF EXISTS `product`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `product` (
   `entity_id` bigint(11) NOT NULL AUTO_INCREMENT,
-  `product_id` bigint(11) DEFAULT NULL,
-  `product_name` varchar(255) DEFAULT NULL,
+  `product_id` bigint(11) NOT NULL,
+  `product_name` varchar(255) NOT NULL,
   `quantity` bigint(11) NOT NULL,
   `brand_name` varchar(255) DEFAULT NULL,
   `category_name` varchar(255) DEFAULT NULL,
-  `market_price` double DEFAULT NULL,
-  `actual_price` double DEFAULT NULL,
-  `status` tinyint(4) DEFAULT '0',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
+  `market_price` double NOT NULL,
+  `actual_price` double NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime DEFAULT '1970-01-01 00:00:00',
   PRIMARY KEY (`entity_id`),
   UNIQUE KEY `entity_id_UNIQUE` (`entity_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -126,7 +126,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (1,1234,'test',67,'test_123','test_989',78,88,1,'2020-09-29 15:17:32','2020-09-29 15:17:32'),(2,6566,'test2',8989,'test_99','test_900',99,88,0,'2020-09-29 15:17:32','2020-09-29 15:17:32'),(3,6566,'test2',8989,'test_99','test_900',99,88,0,'2020-09-29 15:17:32','2020-09-29 15:17:32'),(4,6566,'test2',8989,'test_99','test_900',99,88,0,'2020-09-29 15:17:32','2020-09-29 15:17:32'),(5,6566,'test2',8989,'test_99','test_900',99,88,0,'2020-09-29 15:17:32','2020-09-29 15:17:32'),(6,6566,'test2',8989,'test_99','test_900',99,88,0,'2020-09-29 15:17:32','2020-09-29 15:17:32'),(7,6566,'test2',8989,'test_99','test_900',99,88,0,'2020-09-29 15:17:32','2020-09-29 15:17:32');
+INSERT INTO `product` VALUES (1,98798,'iPhone',101,'Apple','Mobile',15000,12000,0,'2020-09-30 23:48:08','2020-10-01 02:42:35'),(2,123301,'ipone11',150,'apple','moble',15000,10000,1,'2020-09-30 23:56:51',NULL),(3,123302,'ipone12',150,'apple','moble',15000,10000,1,'2020-09-30 23:58:20',NULL);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,4 +165,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-29 18:07:13
+-- Dump completed on 2020-10-01 18:14:53
