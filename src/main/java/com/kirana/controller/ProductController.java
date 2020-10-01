@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kirana.model.Product;
 import com.kirana.service.ProductService;
+import com.kirana.utility.CommonUtility;
 
 @Controller
 @RequestMapping("/product")
@@ -32,10 +33,11 @@ public class ProductController {
 	public String productList(ModelMap model) {
 		List<Product> productlist = productServerice.findAllProduct();
 		model.addAttribute("products", productlist);
+		model.addAttribute("loggedinuser",CommonUtility.getPrincipal());
 		return "productList";
 	}
 
-	@RequestMapping(value = "/addproduct", method = RequestMethod.POST,consumes  = "application/json")
+	@RequestMapping(value = "/addproduct", method = RequestMethod.POST)
 	public @ResponseBody String  addProduct(@RequestBody Product product) {
 		productServerice.addProducts(product);
 		return "OK";
@@ -52,7 +54,7 @@ public class ProductController {
 		 return "productlist";
 	}
 	
-	@RequestMapping(value = "updateproduct", method = RequestMethod.POST,produces = "application/json")
+	@RequestMapping(value = "updateproduct", method = RequestMethod.POST)
 	public @ResponseBody String updateProduct(@RequestBody Product product) {
 		 productServerice.updateProducts(product);
 		 return "productlist";

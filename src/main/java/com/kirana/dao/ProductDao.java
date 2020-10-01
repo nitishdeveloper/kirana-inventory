@@ -11,4 +11,5 @@ public interface ProductDao {
 	List<Product> findAllProduct();
 	Product findProductsByEntityId(long entityId);
 	void builkUploadProduct(List<Product> products);
+	List<Product> findByProductId(Long producId);
 }

@@ -11,10 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -30,6 +28,7 @@ import com.kirana.model.User;
 import com.kirana.model.UserProfile;
 import com.kirana.service.UserProfileService;
 import com.kirana.service.UserService;
+import com.kirana.utility.CommonUtility;
 
 
 
@@ -51,24 +50,32 @@ public class AppController {
 	@Autowired
 	PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
 	
-	@Autowired
-	AuthenticationTrustResolver authenticationTrustResolver;
+	
+	
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String loginPage() {
+		return "welcome";
+	}
 
 	@RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
-	public String listUsers(ModelMap model) {
-
-		List<User> users = userService.findAllUsers();
-		model.addAttribute("users", users);
-		model.addAttribute("loggedinuser", getPrincipal());
+	public String productListPage(ModelMap model) {
 		return "redirect:/product/productlist";
 	}
 
+	@RequestMapping(value = {"/userList" }, method = RequestMethod.GET)
+	public String listUsers(ModelMap model) {
+		List<User> users = userService.findAllUsers();
+		model.addAttribute("users", users);
+		model.addAttribute("loggedinuser",CommonUtility.getPrincipal());
+		return "userslist";
+	}
+	
 	@RequestMapping(value = { "/newuser" }, method = RequestMethod.GET)
 	public String newUser(ModelMap model) {
 		User user = new User();
 		model.addAttribute("user", user);
 		model.addAttribute("edit", false);
-		model.addAttribute("loggedinuser", getPrincipal());
+		model.addAttribute("loggedinuser",CommonUtility.getPrincipal());
 		return "registration";
 	}
 
@@ -88,7 +95,7 @@ public class AppController {
 		userService.saveUser(user);
 
 		model.addAttribute("success", "User " + user.getFirstName() + " "+ user.getLastName() + " registered successfully");
-		model.addAttribute("loggedinuser", getPrincipal());
+		model.addAttribute("loggedinuser",CommonUtility.getPrincipal());
 		logger.info("enter in this method : "+user.getUsername() +" | "+user.getPassword());
 		//return "success";
 		return "registrationsuccess";
@@ -99,7 +106,7 @@ public class AppController {
 		User user = userService.findByUsername(username);
 		model.addAttribute("user", user);
 		model.addAttribute("edit", true);
-		model.addAttribute("loggedinuser", getPrincipal());
+		model.addAttribute("loggedinuser",CommonUtility.getPrincipal());
 		return "registration";
 	}
 	
@@ -113,7 +120,7 @@ public class AppController {
 		userService.updateUser(user);
 
 		model.addAttribute("success", "User " + user.getFirstName() + " "+ user.getLastName() + " updated successfully");
-		model.addAttribute("loggedinuser", getPrincipal());
+		model.addAttribute("loggedinuser",CommonUtility.getPrincipal());
 		return "registrationsuccess";
 	}
 
@@ -130,45 +137,18 @@ public class AppController {
 
 	@RequestMapping(value = "/Access_Denied", method = RequestMethod.GET)
 	public String accessDeniedPage(ModelMap model) {
-		model.addAttribute("loggedinuser", getPrincipal());
+		model.addAttribute("loggedinuser",CommonUtility.getPrincipal());
 		return "accessDenied";
-	}
-
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginPage() {
-		if (isCurrentAuthenticationAnonymous()) {
-			return "welcome";
-	    } else {
-	    	return "redirect:/list";  
-	    }
 	}
 
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
 	public String logoutPage (HttpServletRequest request, HttpServletResponse response){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null){    
-			//new SecurityContextLogoutHandler().logout(request, response, auth);
 			persistentTokenBasedRememberMeServices.logout(request, response, auth);
 			SecurityContextHolder.getContext().setAuthentication(null);
 		}
 		return "redirect:/login?logout";
-	}
-
-	private String getPrincipal(){
-		String userName = null;
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-		if (principal instanceof UserDetails) {
-			userName = ((UserDetails)principal).getUsername();
-		} else {
-			userName = principal.toString();
-		}
-		return userName;
-	}
-
-	private boolean isCurrentAuthenticationAnonymous() {
-	    final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-	    return authenticationTrustResolver.isAnonymous(authentication);
 	}
 
 	

@@ -26,8 +26,8 @@
                      </button>
                      <div class="collapse navbar-collapse" id="basicExampleNav">
                         <ul class="navbar-nav mr-auto text-uppercase">
-                           <li class="nav-item active">
-                              <a class="nav-link font-weight-normal" href="#">
+                           <li class="nav-item">
+                              <a class="nav-link font-weight-normal"  href="<c:url value='productlist'/>">
                               <i class="fas fa-home"></i>Home</a>
                            </li>
                            <li class="nav-item">
@@ -37,7 +37,7 @@
                               <a class="nav-link" href="#" data-toggle="modal" data-target="#modalLoginForm2" data-backdrop="static" data-keyboard="false"><i class="fas fa-cloud-upload-alt"></i>Upload</a>
                            </li>
                            <li class="nav-item">
-                              <a class="nav-link" href="#" data-toggle="modal" data-target="#modalLoginForm3" data-backdrop="static" data-keyboard="false"><i class="fas fa-user-alt"></i>Users</a>
+                              <a class="nav-link" href="<c:url value='/userList'/>"><i class="fas fa-user-alt"></i>Users</a>
                            </li>
                         </ul>
                         <ul class="navbar-nav mr-auto">
@@ -50,11 +50,9 @@
                               <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
                                  aria-haspopup="true" aria-expanded="false"><i class="fas fa-wrench"></i><span class="d-none d-xl-inline-block ml-1 font-weight-normal">Tools</span></a>
                               <div class="dropdown-menu dropdown-primary dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                                 <a class="dropdown-item font-weight-normal text-uppercase" href="#">${loggedinuser}</a>
+                                 <a class="dropdown-item font-weight-normal" href="#">${loggedinuser}</a>
                                  <a class="dropdown-item" href="#">Profile</a>
-                                 <a class="dropdown-item" href="
-                                 <c:url value="/logout" />
-                                 ">Logout</a>
+                                 <a class="dropdown-item" href=" <c:url value="/logout" />">Logout</a>
                               </div>
                            </li>
                         </ul>
@@ -157,10 +155,10 @@
                                     <input type="text" id="actualPrice" class="form-control" name="actualPrice" placeholder="ActualPrice"/>
                                  </div>
                                  <div class="col">
-                                    <select class="browser-default custom-select">
+                                    <select class="browser-default custom-select" id="status" name="status">
                                        <option selected>Status</option>
-                                       <option value="1">disable</option>
-                                       <option value="2">enable</option>
+                                       <option value="0">disable</option>
+                                       <option value="1">enable</option>
                                     </select>
                                  </div>
                               </div>
@@ -187,21 +185,20 @@
                            </button>
                         </div>
                         <div class="card-body px-lg-20 pt-6">
-                           <form class="text-center" style="color: #757575;" action="fileUpload" enctype="multipart/form-data">
+                           <form class="text-center" style="color: #757575;" action="bulkUpload" enctype="multipart/form-data" id="uploadForm">
                               <div class="input-group">
                                  <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="inputGroupFile01"
-                                       aria-describedby="inputGroupFileAddon01" name="file">
+                                    <input type="file" name="upload" type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
                                     <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                                  </div>
                               </div>
                               <div class="progress md-progress" style="height:20px; margin-top:30px;">
-                                 <div class="progress-bar indigo" id="progressBar" role="progressbar" style="width:25%;height:20px" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                 <div class="progress-bar indigo" id="progressDivId" role="progressbar" id='progressBar' class='percent' id='percent'  style="width:25%;height:20px" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
                               </div>
-                              <button class="btn btn-outline-indigo btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">upload</button>
+                              <button class="btn btn-outline-indigo btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit" id="submitButton">upload</button>
                            </form>
                            <!-- Alert -->
-    						<div id="alertMsg" style="color: red;font-size: 18px;"></div>
+    						<div id='outputImage'></div>
                         </div>
                      </div>
                   </div>
@@ -215,7 +212,7 @@
                   <div class="modal-content">
                      <div class="card">
                         <div class="modal-header card-header indigo white-text text-center py-2">
-                           <h4 class="modal-title"><strong>Add Product</strong></h4>
+                           <h4 class="modal-title"><strong>Active Users</strong></h4>
                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                            <span aria-hidden="true">&times;</span>
                            </button>

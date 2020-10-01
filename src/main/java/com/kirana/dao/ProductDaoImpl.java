@@ -3,9 +3,9 @@ package com.kirana.dao;
 import java.util.Date;
 import java.util.List;
 
-
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -23,12 +23,9 @@ public class ProductDaoImpl extends AbstractDao<Long, Product> implements Produc
 	
 	@Override
 	public void addProducts(Product product) {
-		 product.setCreatedAt(new Date());
-		 product.setUpdatedAt(new Date());
 		 persist(product);
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	public void updateProducts(Product product) {
 		
@@ -42,6 +39,7 @@ public class ProductDaoImpl extends AbstractDao<Long, Product> implements Produc
 			updateDetails.setCategoryName(product.getCategoryName());
 			updateDetails.setActualPrice(product.getActualPrice());
 			updateDetails.setMarketPrice(product.getMarketPrice());
+			updateDetails.setStatus(product.getStatus());
 			updateDetails.setUpdatedAt(new Date());
 			update(updateDetails);
 			return;
@@ -75,6 +73,13 @@ public class ProductDaoImpl extends AbstractDao<Long, Product> implements Produc
 			     persist(entity);
 			}
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Product> findByProductId(Long producId) {
+		Criteria criteria = createEntityCriteria().add(Restrictions.eq("productId", producId));
+		List<Product> productlist = criteria.list();
+		return productlist;
+	}
 	
 }

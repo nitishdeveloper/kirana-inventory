@@ -8,7 +8,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,13 +17,14 @@ import com.kirana.model.Product;
 import com.kirana.service.ProductService;
 
 @Controller
+@RequestMapping("/bulk")
 public class ExcelUploadController {
 	
 	@Autowired
 	ProductService productService;
 	
-	@RequestMapping(value = "/fileUpload", method = RequestMethod.POST)
-	public String processExcel(Model model, @RequestParam("fileUpload")MultipartFile fileUpload) {		
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public String processExcel(@RequestParam("bulkUpload")MultipartFile fileUpload) {		
 		try {
 			List<Product> productlist = new ArrayList<Product>();
 			int i = 0;
